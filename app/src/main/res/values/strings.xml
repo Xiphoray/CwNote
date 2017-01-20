@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CwNote</string>
+    <string name="hini_name_标题">标题</string>
+    <string name="hini_text_记事">记事</string>
 </resources>
