@@ -9,14 +9,14 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.AppCompat.Light">
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".EditActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".EditActivity">
+
         </activity>
     </application>
 
