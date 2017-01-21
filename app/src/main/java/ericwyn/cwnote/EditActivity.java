@@ -9,5 +9,6 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edid_layout);
+        setTitle("新建记事");
     }
 }
