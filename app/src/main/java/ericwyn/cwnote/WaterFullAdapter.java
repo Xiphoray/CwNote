@@ -34,7 +34,7 @@ public class WaterFullAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyViewHolder holder2=(MyViewHolder) holder;
         MyCard myCard=mData.get(position);
-        holder2.cardName.setText(myCard.getName());
+        holder2.cardName.setText(myCard.gethead());
         holder2.cardText.setText(myCard.getText());
 
     }

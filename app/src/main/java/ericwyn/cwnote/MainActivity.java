@@ -1,6 +1,7 @@
 package ericwyn.cwnote;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -13,12 +14,17 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private WaterFullAdapter mAdapter;
     private FloatingActionButton fab;
+    private SharedPreferences userSP;
+    private SharedPreferences preferences;
+
+    private DataHelper myData;
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -41,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         mAdapter=new WaterFullAdapter(this,buildData());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+//        myData=new DataHelper(this,"CwNoteData.db",null,1);
+//        myData.getWritableDatabase();
+        //判断首次启动,设置
+
+        userSP =getSharedPreferences("userData",MODE_PRIVATE);
+        if(!userSP.getBoolean("firstOpen",false)){
+            SharedPreferences.Editor editor=userSP.edit();
+            editor.putInt("cardNum",0);
+            editor.putString("lastmod_time",new Date().toString());
+            editor.putBoolean("firstOpen",true);
+            editor.apply();
+        }
+
+
+        //新建笔记按钮
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,48 +71,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
     private List<MyCard> buildData(){
         String[] name={
                 "浪淘沙",
                 "天净沙",
                 "破阵子",
-                "烛影摇红",
-                "蝶恋花",
-                "浪淘沙",
-                "天净沙",
-                "破阵子",
-                "烛影摇红",
-                "蝶恋花",
-                "浪淘沙",
-                "天净沙",
-                "破阵子",
-                "烛影摇红",
-                "蝶恋花",
+
         };
         String[] text={
-                "浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙",
+                "浪淘沙浪淘沙浪淘" +
+                        "沙浪淘沙浪淘沙浪淘沙浪淘沙" +
+                        "浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪" +
+                        "淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙",
                 "天净沙天净沙天净沙天净沙天净沙天净沙天净沙",
                 "破阵子破阵子破阵子破阵子破阵子",
-                "烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红",
-                "蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花",
-                "浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙",
-                "天净沙天净沙天净沙天净沙天净沙天净沙天净沙",
-                "破阵子破阵子破阵子破阵子破阵子",
-                "烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红",
-                "蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花",
-                "浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙浪淘沙",
-                "天净沙天净沙天净沙天净沙天净沙天净沙天净沙",
-                "破阵子破阵子破阵子破阵子破阵子",
-                "烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红烛影摇红",
-                "蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花蝶恋花",
+
         };
         List<MyCard> list=new ArrayList<>();
-        for (int i=0;i<15;i++){
-            MyCard p=new MyCard();
-            p.setName(name[i]);
-            p.setText(text[i]);
+        for (int i=0;i<name.length;i++){
+            MyCard p=new MyCard(name[i],text[i],"white");
             list.add(p);
         }
 

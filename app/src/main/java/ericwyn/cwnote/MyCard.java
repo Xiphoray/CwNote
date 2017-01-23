@@ -6,8 +6,34 @@ package ericwyn.cwnote;
  */
 
 public class MyCard {
-    private String mName;
+    private String mhead;
     private String mText;
+    private String label;
+    private String time_create;
+    private String time_lastmod;
+
+    public MyCard(){
+        mhead="";
+        mText="";
+        label="";
+        time_create="";
+        time_lastmod="";
+    }
+
+    public MyCard(String head,String text,String label){
+        this.mhead=head;
+        this.mText=text;
+        this.label="white";
+    }
+
+    public String gethead() {
+        return mhead;
+    }
+
+    public void sethead(String mhead) {
+        this.mhead = mhead;
+    }
+
     public String getText() {
         return mText;
     }
@@ -16,11 +42,27 @@ public class MyCard {
         mText = text;
     }
 
-    public String getName() {
-        return mName;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        mName = name;
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getTime_create() {
+        return time_create;
+    }
+
+    public void setTime_create(String time_create) {
+        this.time_create = time_create;
+    }
+
+    public String getTime_lastmod() {
+        return time_lastmod;
+    }
+
+    public void setTime_lastmod(String time_lastmod) {
+        this.time_lastmod = time_lastmod;
     }
 }
