@@ -36,6 +36,19 @@
             app:pressedTranslationZ="24dp"
             app:layout_behavior=".FloatingActionButtonScrollBehavior"/>
 
+        <!--&lt;!&ndash;测试按钮&ndash;&gt;-->
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/testButton_mainActivity"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:backgroundTint="#ff4081"-->
+            <!--android:src="@drawable/icon_add"-->
+            <!--android:layout_gravity="bottom|left"-->
+            <!--android:layout_marginLeft="25dp"-->
+            <!--android:layout_marginBottom="50dp"-->
+            <!--app:pressedTranslationZ="24dp"-->
+            <!--app:layout_behavior=".FloatingActionButtonScrollBehavior"/>-->
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
@@ -43,6 +56,7 @@
             android:scrollbars="none"
             android:elevation="2dp"
             >
+
         </android.support.v7.widget.RecyclerView>
 
 

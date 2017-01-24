@@ -36,7 +36,6 @@ public class WaterFullAdapter extends RecyclerView.Adapter {
         MyCard myCard=mData.get(position);
         holder2.cardName.setText(myCard.gethead());
         holder2.cardText.setText(myCard.getText());
-
     }
 
     @Override

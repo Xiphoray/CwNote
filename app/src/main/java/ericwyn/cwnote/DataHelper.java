@@ -17,7 +17,11 @@ public class DataHelper extends SQLiteOpenHelper{
             "create_time text," +            //创立时间
             "lastmod_time text," +           //最后修改时间
             "label text," +                  //标签：红色？绿色？用以标识不同的颜色
-            "head text)";                     //内容：便签内容
+            "head text," +
+            "txt text," +
+            "alarm text)";                     //内容：便签内容
+    private static final String CREATE_USER= "create table user(" +
+            "card_num integer)";                     //便签的数量
 //    //创建用户表，存储用户相关的信息
 //    private static final String CREATE_UESR="create table user(" +
 //            "user_id integer";
@@ -31,6 +35,7 @@ public class DataHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_CARD);
+//        sqLiteDatabase.execSQL(CREATE_USER);
         Toast.makeText(mContext,"数据库创建成功",Toast.LENGTH_SHORT).show();
     }
 
