@@ -13,18 +13,19 @@ import android.widget.Toast;
 public class DataHelper extends SQLiteOpenHelper{
     //创建card表，存储用户所有的卡片信息
     private static final String CREATE_CARD= "create table card(" +
-            "id integer primary key autoincrement," +        //卡片的id
+            "cardNo integer primary key autoincrement," +        //卡片的编号
+            "id text," +                                 //卡片的id
             "create_time text," +            //创立时间
             "lastmod_time text," +           //最后修改时间
             "label text," +                  //标签：红色？绿色？用以标识不同的颜色
             "head text," +
             "txt text," +
             "alarm text)";                     //内容：便签内容
-    private static final String CREATE_USER= "create table user(" +
-            "card_num integer)";                     //便签的数量
-//    //创建用户表，存储用户相关的信息
-//    private static final String CREATE_UESR="create table user(" +
-//            "user_id integer";
+//    private static final String CREATE_USER= "create table user(" +
+//            "card_num integer)";                     //便签的数量
+////    //创建用户表，存储用户相关的信息
+////    private static final String CREATE_UESR="create table user(" +
+////            "user_id integer";
 
     private Context mContext;
 

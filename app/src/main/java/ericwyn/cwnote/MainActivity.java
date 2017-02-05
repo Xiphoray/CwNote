@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private FloatingActionButton fabTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +42,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-//        FloatingActionButton testButton=(FloatingActionButton)findViewById(R.id.testButton_mainActivity);
-//        testButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("MainActivity测试","刷新按钮被点击");
-//                shuaxin();
-//            }
-//        });
-
         mRecyclerView=(RecyclerView) findViewById(R.id.recyclerview);
         fab=(FloatingActionButton)findViewById(R.id.main_fab);
+
+        fabTest=(FloatingActionButton)findViewById(R.id.testButton_mainActivity);
+        fabTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent data=getIntent();
+                String id=           data.getStringExtra("id");
+                String head=         data.getStringExtra("head");
+                String text=         data.getStringExtra("txt");
+                String label=        data.getStringExtra("label");
+                String create_time=  data.getStringExtra("create_time");
+                String lastmod_time= data.getStringExtra("lastmod_time");
+                String alarm=        data.getStringExtra("alarm");
+                MyCard p=new MyCard(id,head,text,label,create_time,lastmod_time,alarm);
+                list.add(0,p);
+                mAdapter.notifyItemInserted(0);
+                mAdapter.notifyItemRangeChanged(0,list.size());
+            }
+        });
+
         mLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 
         mDrawerLayout=(DrawerLayout)findViewById(R.id.drawerLayout);
@@ -77,55 +90,118 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,EditActivity.class);
-                startActivity(intent);
+                Bundle bundle=new Bundle();
+                bundle.putBoolean("xianjianbianqian",true);
+                intent.putExtras(bundle);
+                int requestCode = 1;  //请求码
+                startActivityForResult(intent, requestCode);  //开启活动，并传递请求码
             }
         });
 
     }
     private List<MyCard> buildData(){
-        List<MyCard> list=new ArrayList<>();
+        List<MyCard> list222=new ArrayList<>();
         myData=new DataHelper(this,"NoteData.db",null,1);
         SQLiteDatabase db=myData.getWritableDatabase();
         //查询CwNoteData当中的所有数据
         Cursor cursor =db.query("card",null,null,null,null,null,null);
         if(cursor.moveToFirst()){
             do{
+                String id=cursor.getString(cursor.getColumnIndex("id"));
                 String head=cursor.getString(cursor.getColumnIndex("head"));
                 String text=cursor.getString(cursor.getColumnIndex("txt"));
                 String label=cursor.getString(cursor.getColumnIndex("label"));
-                MyCard p=new MyCard(head,text,label);
-                list.add(p);
+                String create_time=cursor.getString(cursor.getColumnIndex("create_time"));
+                String lastmod_time=cursor.getString(cursor.getColumnIndex("lastmod_time"));
+                String alarm=cursor.getString(cursor.getColumnIndex("alarm"));
+                MyCard p=new MyCard(id,head,text,label,create_time,lastmod_time,alarm);
+                list222.add(p);
             }while (cursor.moveToNext());
         }
         cursor.close();
         //倒序排列list，使得最末尾的那个便签能够在最上面显示
-        Collections.reverse(list);
-        return list;
+        Collections.reverse(list222);
+        return list222;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("MainActivivy测试","返回方法被调用");
-        shuaxin();
-        shuaxin();
+//        shuaxin();
     }
 
+    /**
+     * 解析来自EditActivity的Bundle数据
+     */
     private void shuaxin(){
-        SharedPreferences sp=getSharedPreferences("user",MODE_PRIVATE);
-        int cardNum=sp.getInt("cardNum",0);
-        if(cardNum!=0 && cardNum>list.size()){
+//        SharedPreferences sp=getSharedPreferences("user",MODE_PRIVATE);
+//        int cardNum=sp.getInt("cardNum",0);
+//        if(cardNum!=0 && cardNum>list.size()){
+//
+//            String head=sp.getString("last_head","apple");
+//            String text=sp.getString("last_txt","");
+//            String label=sp.getString("last_label","white");
+//            MyCard p;
+//            p=new MyCard(head,text,label);
+//            list.add(0,p);
+//            mAdapter.notifyItemInserted(0);
+//            mAdapter.notifyItemRangeChanged(0,list.size());
+//        }
+//        if(intent.getBooleanExtra("xinjian",false)){
+            SharedPreferences sp222=getSharedPreferences("user",MODE_PRIVATE);
+//            if(sp222.getBoolean("weiShuaXin",false)){
+                SharedPreferences sp=getSharedPreferences("user",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sp.edit();
+                Log.i("MainActivity","shuaxin()被调用了");
+                String id=           sp.getString("id","");             //intent.getStringExtra("id");
+                String head=         sp.getString("head","");           //intent.getStringExtra("head");
+                String text=         sp.getString("txt","");            //intent.getStringExtra("txt");
+                String label=        sp.getString("label","");          //intent.getStringExtra("label");
+                String create_time=  sp.getString("create_time","");    //intent.getStringExtra("create_time");
+                String lastmod_time= sp.getString("lastmod_time","");   //intent.getStringExtra("lastmod_time");
+                String alarm=        sp.getString("alarm","");          //intent.getStringExtra("alarm")
+                editor.putBoolean("weiShuaXin",false);
+                editor.apply();
+                MyCard p=new MyCard(id,head,text,label,create_time,lastmod_time,alarm);
+                list.add(0,p);
+                mAdapter.notifyItemInserted(0);
+                mAdapter.notifyItemRangeChanged(0,list.size());
+//            }
 
-            String head=sp.getString("last_head","apple");
-            String text=sp.getString("last_txt","");
-            String label=sp.getString("last_label","white");
-            MyCard p;
-            p=new MyCard(head,text,label);
-            list.add(0,p);
-            mAdapter.notifyItemInserted(0);
-            mAdapter.notifyItemRangeChanged(0,list.size());
+//        }else {
+//
+//        }
+
+    }
+
+    /**
+     * requestCode:请求码，启动活动时传入的请求码
+     * resultCode：处理结果，返回数据时传入的处理结果
+     * data:携带返回数据的Intent对象
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Log.i("MainActivity","数据刷新成功");
+                    String id=           data.getStringExtra("id");
+                    String head=         data.getStringExtra("head");
+                    String text=         data.getStringExtra("txt");
+                    String label=        data.getStringExtra("label");
+                    String create_time=  data.getStringExtra("create_time");
+                    String lastmod_time= data.getStringExtra("lastmod_time");
+                    String alarm=        data.getStringExtra("alarm");
+                    MyCard p=new MyCard(id,head,text,label,create_time,lastmod_time,alarm);
+                    list.add(0,p);
+                    mAdapter.notifyItemInserted(0);
+                    mAdapter.notifyItemRangeChanged(0,list.size());
+                    Log.i("MainActivity","数据刷新成功");
+                }
+                break;
+            default:
+                break;
         }
-
     }
 
 }
